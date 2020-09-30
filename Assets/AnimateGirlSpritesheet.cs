@@ -14,6 +14,7 @@ public class AnimateGirlSpritesheet : MonoBehaviour {
     SpritesheetAnimator animator;
     SpriteRenderer spriteRenderer;
     LastMovement lastMove ; 
+    float movingSpeed = 0.02f; 
     
     void Start() {
         animator = GetComponent<SpritesheetAnimator>();
@@ -26,6 +27,8 @@ public class AnimateGirlSpritesheet : MonoBehaviour {
                 spriteRenderer.flipX = !spriteRenderer.flipX ;
             }
             lastMove = LastMovement.RIGHT;
+
+            animator.transform.position += Vector3.right * this.movingSpeed;
         } 
         else if (Input.GetKey(KeyCode.LeftArrow)) {
             animator.Play(Anims.Run);
@@ -33,10 +36,24 @@ public class AnimateGirlSpritesheet : MonoBehaviour {
                 spriteRenderer.flipX = !spriteRenderer.flipX ;
             }
             lastMove = LastMovement.LEFT;
+
+            animator.transform.position += Vector3.left * this.movingSpeed;
         } 
-        
+        else if (Input.GetKey(KeyCode.UpArrow)) {
+            animator.Play(Anims.Run);
+            animator.transform.position += Vector3.up * this.movingSpeed;
+        } 
         else if (Input.GetKey(KeyCode.DownArrow)) {
+            animator.Play(Anims.Run);
+            animator.transform.position += Vector3.down * this.movingSpeed;
+        } 
+        else if (Input.GetKey(KeyCode.Space)) {
             animator.Play(Anims.Roll);
+            if(lastMove == LastMovement.LEFT) {
+            animator.transform.position += Vector3.left * this.movingSpeed;
+            } else {
+            animator.transform.position += Vector3.right * this.movingSpeed;
+            }
         } else {
             animator.Play(Anims.Iddle);
         }
