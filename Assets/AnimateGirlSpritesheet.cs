@@ -3,52 +3,107 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public enum LastMovement {
-    RIGHT, LEFT
+public enum LastMovement
+{
+  RIGHT, LEFT
 }
 
 [RequireComponent(typeof(SpritesheetAnimator))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class AnimateGirlSpritesheet : MonoBehaviour {
-    SpritesheetAnimator animator;
-    SpriteRenderer spriteRenderer;
-    LastMovement lastMove ; 
-    float movingSpeed = 0.02f; 
-    
-    void Start() {
-        animator = GetComponent<SpritesheetAnimator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+public class AnimateGirlSpritesheet : MonoBehaviour
+{
+  SpritesheetAnimator animator;
+  SpriteRenderer spriteRenderer;
+  LastMovement lastMove;
+  float movingSpeed = 0.02f;
+
+  void Start()
+  {
+    animator = GetComponent<SpritesheetAnimator>();
+    spriteRenderer = GetComponent<SpriteRenderer>();
+  }
+  void Update()
+  {
+    bool moved = false;
+
+    if (Input.GetKey(KeyCode.Space))
+    {
+      this.moveRoll();
+      moved = true;
     }
-    void Update() {
-        if (Input.GetKey(KeyCode.Space)) {
-            animator.Play(Anims.Roll);
-            if (lastMove == LastMovement.LEFT) {
-                animator.transform.position += Vector3.left * this.movingSpeed;
-            } else {
-                animator.transform.position += Vector3.right * this.movingSpeed;
-            }
-        } else if (Input.GetKey(KeyCode.RightArrow)) {
-            animator.Play(Anims.Run);
-            if (lastMove == LastMovement.LEFT) {
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-            }
-            lastMove = LastMovement.RIGHT;
-            animator.transform.position += Vector3.right * this.movingSpeed;
-        } else if (Input.GetKey(KeyCode.LeftArrow)) {
-            animator.Play(Anims.Run);
-            if (lastMove == LastMovement.RIGHT) {
-                spriteRenderer.flipX = !spriteRenderer.flipX;
-            }
-            lastMove = LastMovement.LEFT;
-            animator.transform.position += Vector3.left * this.movingSpeed;
-        } else if (Input.GetKey(KeyCode.UpArrow)) {
-            animator.Play(Anims.Run);
-            animator.transform.position += Vector3.up * this.movingSpeed;
-        } else if (Input.GetKey(KeyCode.DownArrow)) {
-            animator.Play(Anims.Run);
-            animator.transform.position += Vector3.down * this.movingSpeed;
-        } else {
-            animator.Play(Anims.Iddle);
-        }
+    else
+    {
+      if (Input.GetKey(KeyCode.RightArrow))
+      {
+        this.moveRight();
+        moved = true;
+      }
+      else if (Input.GetKey(KeyCode.LeftArrow))
+      {
+        this.moveLeft();
+        moved = true;
+      }
+
+      if (Input.GetKey(KeyCode.UpArrow))
+      {
+        this.moveUp();
+        moved = true;
+      }
+      else if (Input.GetKey(KeyCode.DownArrow))
+      {
+        this.moveDown();
+        moved = true;
+      }
+
     }
+
+    if (!moved)
+    {
+      animator.Play(Anims.Iddle);
+      moved = false;
+    }
+  }
+
+  void moveRoll()
+  {
+    animator.Play(Anims.Roll);
+    if (lastMove == LastMovement.LEFT)
+    {
+      animator.transform.position += Vector3.left * this.movingSpeed;
+    }
+    else
+    {
+      animator.transform.position += Vector3.right * this.movingSpeed;
+    }
+  }
+  void moveRight()
+  {
+    animator.Play(Anims.Run);
+    if (lastMove == LastMovement.LEFT)
+    {
+      spriteRenderer.flipX = !spriteRenderer.flipX;
+    }
+    lastMove = LastMovement.RIGHT;
+    animator.transform.position += Vector3.right * this.movingSpeed;
+  }
+  void moveLeft()
+  {
+    animator.Play(Anims.Run);
+    if (lastMove == LastMovement.RIGHT)
+    {
+      spriteRenderer.flipX = !spriteRenderer.flipX;
+    }
+    lastMove = LastMovement.LEFT;
+    animator.transform.position += Vector3.left * this.movingSpeed;
+  }
+  void moveUp()
+  {
+    animator.Play(Anims.Run);
+    animator.transform.position += Vector3.up * this.movingSpeed;
+  }
+  void moveDown()
+  {
+    animator.Play(Anims.Run);
+    animator.transform.position += Vector3.down * this.movingSpeed;
+  }
 }
