@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class circleBehavior : MonoBehaviour
 {
-  // Start is called before the first frame update
+  public GameObject Monprefab;
+
   void Start()
   {
     InvokeRepeating("moveRandomly", 0, 2);
@@ -13,6 +14,10 @@ public class circleBehavior : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+      var instance = Instantiate(Monprefab);
+    }
   }
 
   void moveRandomly()
