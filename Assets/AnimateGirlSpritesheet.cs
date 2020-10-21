@@ -10,6 +10,7 @@ public enum LastMovement
 
 [RequireComponent(typeof(SpritesheetAnimator))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class AnimateGirlSpritesheet : MonoBehaviour
 {
   SpritesheetAnimator animator;
@@ -17,12 +18,17 @@ public class AnimateGirlSpritesheet : MonoBehaviour
   LastMovement lastMove;
   float movingSpeed = 0.02f;
 
-  void Start()
+      private Rigidbody2D rigidbody2D;
+
+
+  void Start() //or Awake() ?
   {
     animator = GetComponent<SpritesheetAnimator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
+            rigidbody2D = GetComponent<Rigidbody2D>();
+
   }
-  void Update()
+  void FixedUpdate()
   {
     bool moved = false;
 
