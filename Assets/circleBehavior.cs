@@ -5,15 +5,30 @@ using UnityEngine;
 public class circleBehavior : MonoBehaviour
 {
   public GameObject Monprefab;
+  private Vector3 direction;
+  private System.DateTime lastUpdate = System.DateTime.Now;
 
   void Start()
   {
-    InvokeRepeating("moveRandomly", 0, 2);
   }
 
   // Update is called once per frame
   void Update()
   {
+    // every 2 sec :  change direction
+    if( System.DateTime.Now > this.lastUpdate ) {
+
+    this.direction = new Vector3(
+      UnityEngine.Random.Range(-1f, 1f),
+      UnityEngine.Random.Range(-1f, 1f),
+      0
+    )*0.004f  ;
+
+    this.lastUpdate = System.DateTime.Now.AddSeconds(1);
+    }
+
+    this.moveRandomly();
+
     if (Input.GetKeyDown(KeyCode.Space))
     {
       var instance = Instantiate(Monprefab);
@@ -22,10 +37,6 @@ public class circleBehavior : MonoBehaviour
 
   void moveRandomly()
   {
-    this.transform.position += new Vector3(
-      UnityEngine.Random.Range(-1f, 1f),
-      UnityEngine.Random.Range(-1f, 1f),
-      UnityEngine.Random.Range(-1f, 1f)
-    );
+    this.transform.position += this.direction;
   }
 }
