@@ -8,6 +8,8 @@ public class circleBehavior : MonoBehaviour
   private Vector3 direction;
   private System.DateTime lastUpdate = System.DateTime.Now;
 
+  public bool creator = true;
+
   void Start()
   {
   }
@@ -29,7 +31,7 @@ public class circleBehavior : MonoBehaviour
 
     this.moveRandomly();
 
-    if (Input.GetKeyDown(KeyCode.Space))
+    if (Input.GetKeyDown(KeyCode.Space) && creator)
     {
       var instance = Instantiate(Monprefab);
     }
