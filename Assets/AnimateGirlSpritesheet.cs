@@ -75,11 +75,11 @@ public class AnimateGirlSpritesheet : MonoBehaviour
     animator.Play(Anims.Roll);
     if (lastMove == LastMovement.LEFT)
     {
-      return Vector3.left * this.movingSpeed;
+      return Vector3.left * (this.movingSpeed * 0.8f);
     }
     else
     {
-      return Vector3.right * this.movingSpeed;
+      return Vector3.right * (this.movingSpeed * 0.8f);
     }
   }
   Vector3 moveRight()
