@@ -10,51 +10,94 @@ public enum LastMovement
 
 [RequireComponent(typeof(SpritesheetAnimator))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class AnimateGirlSpritesheet : MonoBehaviour
 {
   SpritesheetAnimator animator;
   SpriteRenderer spriteRenderer;
   LastMovement lastMove;
-  float movingSpeed = 0.02f;
+  float movingSpeed = 1.5f;
 
-  void Start()
+  public bool p2 = false;
+
+  private Rigidbody2D rigidbody2D;
+
+
+  void Start() //or Awake() ?
   {
     animator = GetComponent<SpritesheetAnimator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
+    rigidbody2D = GetComponent<Rigidbody2D>();
+
+    if (p2) spriteRenderer.color = new Color(0.68f, 0.85f, 0.9f);
+    else spriteRenderer.color = new Color(1.0f, 0.5f, 0.0f);
   }
-  void Update()
+  void FixedUpdate()
   {
     bool moved = false;
+    Vector3 move = Vector3.zero;
 
-    if (Input.GetKey(KeyCode.Space))
+    if (p2)
     {
-      this.moveRoll();
-      moved = true;
+      if (Input.GetKey(KeyCode.Space))
+      {
+        move += this.moveRoll();
+        moved = true;
+      }
+      else
+      {
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+          move += this.moveRight();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+          move += this.moveLeft();
+          moved = true;
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+          move += this.moveUp();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+          move += this.moveDown();
+          moved = true;
+        }
+      }
     }
     else
     {
-      if (Input.GetKey(KeyCode.RightArrow))
+      if (Input.GetKey(KeyCode.E))
       {
-        this.moveRight();
+        move += this.moveRoll();
         moved = true;
       }
-      else if (Input.GetKey(KeyCode.LeftArrow))
+      else
       {
-        this.moveLeft();
-        moved = true;
+        if (Input.GetKey(KeyCode.D))
+        {
+          move += this.moveRight();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+          move += this.moveLeft();
+          moved = true;
+        }
+        if (Input.GetKey(KeyCode.Z))
+        {
+          move += this.moveUp();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+          move += this.moveDown();
+          moved = true;
+        }
       }
-
-      if (Input.GetKey(KeyCode.UpArrow))
-      {
-        this.moveUp();
-        moved = true;
-      }
-      else if (Input.GetKey(KeyCode.DownArrow))
-      {
-        this.moveDown();
-        moved = true;
-      }
-
     }
 
     if (!moved)
@@ -62,21 +105,23 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       animator.Play(Anims.Iddle);
       moved = false;
     }
+
+    rigidbody2D.velocity = move;
   }
 
-  void moveRoll()
+  Vector3 moveRoll()
   {
     animator.Play(Anims.Roll);
     if (lastMove == LastMovement.LEFT)
     {
-      animator.transform.position += Vector3.left * this.movingSpeed;
+      return Vector3.left * (this.movingSpeed * 0.8f);
     }
     else
     {
-      animator.transform.position += Vector3.right * this.movingSpeed;
+      return Vector3.right * (this.movingSpeed * 0.8f);
     }
   }
-  void moveRight()
+  Vector3 moveRight()
   {
     animator.Play(Anims.Run);
     if (lastMove == LastMovement.LEFT)
@@ -84,9 +129,9 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       spriteRenderer.flipX = !spriteRenderer.flipX;
     }
     lastMove = LastMovement.RIGHT;
-    animator.transform.position += Vector3.right * this.movingSpeed;
+    return Vector3.right * this.movingSpeed;
   }
-  void moveLeft()
+  Vector3 moveLeft()
   {
     animator.Play(Anims.Run);
     if (lastMove == LastMovement.RIGHT)
@@ -94,16 +139,16 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       spriteRenderer.flipX = !spriteRenderer.flipX;
     }
     lastMove = LastMovement.LEFT;
-    animator.transform.position += Vector3.left * this.movingSpeed;
+    return Vector3.left * this.movingSpeed;
   }
-  void moveUp()
+  Vector3 moveUp()
   {
     animator.Play(Anims.Run);
-    animator.transform.position += Vector3.up * this.movingSpeed;
+    return Vector3.up * this.movingSpeed;
   }
-  void moveDown()
+  Vector3 moveDown()
   {
     animator.Play(Anims.Run);
-    animator.transform.position += Vector3.down * this.movingSpeed;
+    return Vector3.down * this.movingSpeed;
   }
 }
