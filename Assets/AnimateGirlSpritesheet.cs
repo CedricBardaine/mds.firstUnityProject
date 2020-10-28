@@ -16,51 +16,49 @@ public class AnimateGirlSpritesheet : MonoBehaviour
   SpritesheetAnimator animator;
   SpriteRenderer spriteRenderer;
   LastMovement lastMove;
-  float movingSpeed = 0.02f;
+  float movingSpeed = 1.5f;
 
-      private Rigidbody2D rigidbody2D;
+  private Rigidbody2D rigidbody2D;
 
 
   void Start() //or Awake() ?
   {
     animator = GetComponent<SpritesheetAnimator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
-            rigidbody2D = GetComponent<Rigidbody2D>();
-
+    rigidbody2D = GetComponent<Rigidbody2D>();
   }
   void FixedUpdate()
   {
     bool moved = false;
+    Vector3 move = Vector3.zero;
 
     if (Input.GetKey(KeyCode.Space))
     {
-      this.moveRoll();
+      move += this.moveRoll();
       moved = true;
     }
     else
     {
       if (Input.GetKey(KeyCode.RightArrow))
       {
-        this.moveRight();
+        move += this.moveRight();
         moved = true;
       }
       else if (Input.GetKey(KeyCode.LeftArrow))
       {
-        this.moveLeft();
+        move += this.moveLeft();
         moved = true;
       }
-
       if (Input.GetKey(KeyCode.UpArrow))
       {
-        this.moveUp();
+        move += this.moveUp();
         moved = true;
       }
       else if (Input.GetKey(KeyCode.DownArrow))
       {
-        this.moveDown();
+        move += this.moveDown();
         moved = true;
       }
-
     }
 
     if (!moved)
@@ -68,21 +66,23 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       animator.Play(Anims.Iddle);
       moved = false;
     }
+
+    rigidbody2D.velocity = move;
   }
 
-  void moveRoll()
+  Vector3 moveRoll()
   {
     animator.Play(Anims.Roll);
     if (lastMove == LastMovement.LEFT)
     {
-      animator.transform.position += Vector3.left * this.movingSpeed;
+      return Vector3.left * this.movingSpeed;
     }
     else
     {
-      animator.transform.position += Vector3.right * this.movingSpeed;
+      return Vector3.right * this.movingSpeed;
     }
   }
-  void moveRight()
+  Vector3 moveRight()
   {
     animator.Play(Anims.Run);
     if (lastMove == LastMovement.LEFT)
@@ -90,9 +90,9 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       spriteRenderer.flipX = !spriteRenderer.flipX;
     }
     lastMove = LastMovement.RIGHT;
-    animator.transform.position += Vector3.right * this.movingSpeed;
+    return Vector3.right * this.movingSpeed;
   }
-  void moveLeft()
+  Vector3 moveLeft()
   {
     animator.Play(Anims.Run);
     if (lastMove == LastMovement.RIGHT)
@@ -100,16 +100,16 @@ public class AnimateGirlSpritesheet : MonoBehaviour
       spriteRenderer.flipX = !spriteRenderer.flipX;
     }
     lastMove = LastMovement.LEFT;
-    animator.transform.position += Vector3.left * this.movingSpeed;
+    return Vector3.left * this.movingSpeed;
   }
-  void moveUp()
+  Vector3 moveUp()
   {
     animator.Play(Anims.Run);
-    animator.transform.position += Vector3.up * this.movingSpeed;
+    return Vector3.up * this.movingSpeed;
   }
-  void moveDown()
+  Vector3 moveDown()
   {
     animator.Play(Anims.Run);
-    animator.transform.position += Vector3.down * this.movingSpeed;
+    return Vector3.down * this.movingSpeed;
   }
 }
