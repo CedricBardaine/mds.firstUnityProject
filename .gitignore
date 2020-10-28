@@ -1,4 +1,4 @@
-# From gitignore.io - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# From gitignore.io - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/unity
@@ -76,3 +76,6 @@ InitTestScene*.unity
 # End of https://www.toptal.com/developers/gitignore/api/unity
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - From gitignore.io
+
+# la lib importee en cours
+/Assets/JMO\ Assets
