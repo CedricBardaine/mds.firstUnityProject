@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class BallBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  private Rigidbody2D rigidbody2D;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+  void Start()
+  {
+    rigidbody2D = GetComponent<Rigidbody2D>();
+  }
+
+  void Update()
+  {
+
+  }
 }
