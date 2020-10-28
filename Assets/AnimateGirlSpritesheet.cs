@@ -18,6 +18,8 @@ public class AnimateGirlSpritesheet : MonoBehaviour
   LastMovement lastMove;
   float movingSpeed = 1.5f;
 
+  public bool p2 = false;
+
   private Rigidbody2D rigidbody2D;
 
 
@@ -26,38 +28,75 @@ public class AnimateGirlSpritesheet : MonoBehaviour
     animator = GetComponent<SpritesheetAnimator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     rigidbody2D = GetComponent<Rigidbody2D>();
+
+    if (p2) spriteRenderer.color = new Color(0.68f, 0.85f, 0.9f);
+    else spriteRenderer.color = new Color(1.0f, 0.5f, 0.0f);
   }
   void FixedUpdate()
   {
     bool moved = false;
     Vector3 move = Vector3.zero;
 
-    if (Input.GetKey(KeyCode.Space))
+    if (p2)
     {
-      move += this.moveRoll();
-      moved = true;
+      if (Input.GetKey(KeyCode.Space))
+      {
+        move += this.moveRoll();
+        moved = true;
+      }
+      else
+      {
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+          move += this.moveRight();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+          move += this.moveLeft();
+          moved = true;
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+          move += this.moveUp();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+          move += this.moveDown();
+          moved = true;
+        }
+      }
     }
     else
     {
-      if (Input.GetKey(KeyCode.RightArrow))
+      if (Input.GetKey(KeyCode.E))
       {
-        move += this.moveRight();
+        move += this.moveRoll();
         moved = true;
       }
-      else if (Input.GetKey(KeyCode.LeftArrow))
+      else
       {
-        move += this.moveLeft();
-        moved = true;
-      }
-      if (Input.GetKey(KeyCode.UpArrow))
-      {
-        move += this.moveUp();
-        moved = true;
-      }
-      else if (Input.GetKey(KeyCode.DownArrow))
-      {
-        move += this.moveDown();
-        moved = true;
+        if (Input.GetKey(KeyCode.D))
+        {
+          move += this.moveRight();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+          move += this.moveLeft();
+          moved = true;
+        }
+        if (Input.GetKey(KeyCode.Z))
+        {
+          move += this.moveUp();
+          moved = true;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+          move += this.moveDown();
+          moved = true;
+        }
       }
     }
 
