@@ -32,3 +32,6 @@ public class BallBehavior : MonoBehaviour
     }
   }
 }
+
+// GameObject myBall = Instantiate(BallPrefab);
+// BallBehaviour ballScript = myBall.GetComponent<BallBehaviour>();
