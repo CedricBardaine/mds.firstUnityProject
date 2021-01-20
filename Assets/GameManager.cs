@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
   public TextMesh textScoreP2;
 
   public GameObject theBall;
-
+  public GameObject P1;
+  public GameObject P2;
 
   // Start is called before the first frame update
   void Start()
@@ -19,26 +20,25 @@ public class GameManager : MonoBehaviour
   }
 
   // Update is called once per frame
-  void Update()
-  {
-
-  }
+  void Update() { }
 
   public void goalP1()
   {
     this.scoreP1++;
     this.textScoreP1.text = this.scoreP1.ToString();
-    this.reInitBallPosition();
+    this.reInitBallAndPlayerPosition();
   }
   public void goalP2()
   {
     this.scoreP2++;
     this.textScoreP2.text = this.scoreP2.ToString();
-    this.reInitBallPosition();
+    this.reInitBallAndPlayerPosition();
   }
-  private void reInitBallPosition()
+  private void reInitBallAndPlayerPosition()
   {
     this.theBall.transform.position = new Vector3(0, 0, 0);
+    this.P1.transform.position = new Vector3(-1, 0, 0);
+    this.P2.transform.position = new Vector3(1, 0, 0);
   }
 
 
